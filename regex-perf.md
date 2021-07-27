@@ -134,11 +134,11 @@ Vì vậy chỉ cần chuỗi càng dài thì regex pattern này có thể là s
 Qua đây chúng ta có thể thấy rằng regex cũng không thần thánh như thế, và sử dụng nó không đúng cách cũng rất nguy hiểm, những lỗi này sẽ rất khó để phát hiện nhưng một khi nó xảy ra thì hậu quả sẽ rất nghiêm trọng.
 
 Trong trường hợp muốn sử dụng những pattern trên mà không muốn xảy ra hiện tượng Catastrophic backtracking thì có những cách sau:
-- Possesive quantifiers (`.++`, `.*+`): một khi đoạn text nào đã được lấy thì sẽ không quay lui.
-- Atomic group: ...
+- Possesive quantifiers(`.++`, `.*+`): một khi đoạn text nào đã được lấy thì sẽ không quay lui.
+- Atomic group(`(?>.+)`): 
 - Unrolling the loop: ...
 
-Engine Regex của JS không hỗ trợ `atomic group` cũng như `possesive quantifiers` nên nếu muốn tránh backtracking thì chỉ có thể dùng Unrolling the loop.
+Engine Regex của JS không hỗ trợ `atomic group` cũng như `possesive quantifiers` nên nếu muốn tránh backtracking thì chỉ có thể dùng Unrolling the loop hoặc Look Ahead (https://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead)
 
 Ngoài ra đối với Nodejs, có một thư viện có thể giúp hỗ trợ việc validate xem regex pattern có an toàn hay không, mọi người có thể xem qua tại https://github.com/substack/safe-regex.
 
@@ -147,3 +147,5 @@ Chào mọi người, hẹn gặp lại ở những vấn đề trắc trở mà
 Reference: 
 - https://medium0.com/textmaster-engineering/performance-of-regular-expressions-81371f569698
 - http://www.rexegg.com/regex-explosive-quantifiers.html#identifying
+- https://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead
+- https://swtch.com/~rsc/regexp/regexp1.html
