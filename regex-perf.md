@@ -135,8 +135,13 @@ Qua đây chúng ta có thể thấy rằng regex cũng không thần thánh nh�
 
 Trong trường hợp muốn sử dụng những pattern trên mà không muốn xảy ra hiện tượng Catastrophic backtracking thì có những cách sau:
 - Possesive quantifiers(`.++`, `.*+`): một khi đoạn text nào đã được lấy thì sẽ không quay lui.
-- Atomic group(`(?>.+)`): 
-- Unrolling the loop: ...
+- Atomic group(`(?>.+)`): khi đoạn text nào đã match vs atomic group thì khi engine thoát khỏi group sẽ bỏ qua tất cả vị trí backtracking bên trong group (chi tiết xem ở đây: https://www.regular-expressions.info/atomic.html)
+- Unrolling the loop: hữu hiệu với các engine không hỗ trợ 2 phương thức ở trên như Javascript. Ý tưởng là tách phần repetition thành một group mà chuỗi được match bởi group này sẽ không bị overlap trong lần lặp tiếp theo:
+
+Ví dụ: Một pattern sẽ bị catastrophic backtracking, dùng để tìm ra 1 chuỗi số mà phía trước và phía sau là khoảng trắng, bên trong có thể chứa dấu , để ngăn cách:
+- Cách bình thường: `(?<=\s)(\d+,?)+(?=\s)` (https://regex101.com/r/AKhGvQ/1)
+- Dùng phương pháp unrolling the loop: `(?<=\s)(-?\d+(,\d+)*)(?=\s)`(https://regex101.com/r/XxJ7r4/3)
+-> lúc này thì chúng ta đã tách phần bắt buộc `\d+` ra riêng, và mỗi lần lặp với một ranh giới rõ ràng là dấu `,`. Như vậy thì mỗi lần lặp lại sẽ bị neo tại dấu `,` và số lần backtracking chỉ bằng với độ dài của chuỗi. Mọi người có thể xem phần debug để hiểu rõ hơn.
 
 Engine Regex của JS không hỗ trợ `atomic group` cũng như `possesive quantifiers` nên nếu muốn tránh backtracking thì chỉ có thể dùng Unrolling the loop hoặc Look Ahead (https://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead)
 
