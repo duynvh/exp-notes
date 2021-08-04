@@ -123,3 +123,13 @@ Let's go.
 - Reference: https://www.mongodb.com/developer/how-to/bucket-pattern/
 
 4. Outliner Pattern
+- Pattern này giúp chúng ta phòng ngừa đc một vài truy vấn hay một vài documents sẽ dẫn chúng ta tới 1 giải pháp ko tối ưu với phần lớn các use cases.
+
+- Outliner pattern được sử dụng khi có một sự khác biệt đáng kể trong dữ liệu, còn nếu được xem là `bình thường` thì việc thay đổi kiến trúc của app cho chúng sẽ làm giảm hiệu năng cho hầu hết các truy vấn đặc trưng.
+
+- Ví dụ: dữ liệu bán sách, chúng ta có thể hoàn toàn lưu trữ danh sách user đã mua sách trong cùng document thông tin sách, như vậy việc truy vấn sẽ nhanh hơn và đơn giản hơn. Nhưng đối với cuốn sách dạng best seller thì lượng người mua có thể tới hàng triệu, khi đó chúng ta cần tách danh sách người mua này sang một collection khác, và ở document chứa thông tin sách này có 1 field để phân biệt nó với phần lớn document `bình thường` còn lại, như là `has_extras: true`
+
+- Reference: https://www.mongodb.com/developer/how-to/outlier-pattern/
+
+5. Computed Pattern
+-
