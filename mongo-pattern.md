@@ -132,4 +132,13 @@ Let's go.
 - Reference: https://www.mongodb.com/developer/how-to/outlier-pattern/
 
 5. Computed Pattern
--
+- Pattern này sử dụng khi chúng ta có những dữ liệu cần được tính toán nhiều lần trong ứng dụng. Và được sử dụng khi dữ liệu của chúng ta có lượng read > write. Ví dụ lượng read là 1000.000/h và write chỉ là 1000/h, sử dụng pattern này giúp việc tính toán giảm bớt 1000 lần.
+
+- Pattern này khá đơn giản, thay vì phải tính toán mỗi khi read data thì chúng ta có thể làm việc này trước, ở background, kết quả có thể không chính xác 100% tại thời điểm read, nhưng bù lại lượng resource tiết kiệm được sẽ rất lớn và nếu dữ liệu không cần độ chính xác tuyệt đối, khi đó chúng ta nên áp dụng pattern này.
+
+- Ví dụ: khi xem dữ liệu 1 bài post trên facebook, chúng ta có thể thấy lượng like và comment của post đó, thì việc đếm số lượng like và comment này chúng ta có thể tính toán từ trước, mỗi khi user like hoặc comment và post và lưu lại như 1 phần thông tin post thay vì mỗi lần truy vấn phải đi count lại số lượng like và comment.
+
+- Reference: https://www.mongodb.com/developer/how-to/computed-pattern/
+
+6. Subset Pattern
+- 
