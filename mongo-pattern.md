@@ -17,4 +17,15 @@ Let's go.
 
 - Reference: https://www.mongodb.com/developer/how-to/polymorphic-pattern/
 
-2. 
+2. Attribute Pattern (cấu trúc thuộc tính)
+- Pattern này rất phù hợp với các trường hợp sau:
+	- Chúng ta có những document lớn với những field giống nhau, nhưng có 1 tập con những field có chung những đặc tính và chúng ta muốn sắp xếp hoặc truy xuất trên những tập đó
+	- Những field chúng ta cần sắp xếp chỉ được tìm thấy trong 1 tập con documents.
+	- Hoặc cả hai trường gợp trên.
+
+- Về mặt hiệu năng, để optimize việc tìm kiếm thì chúng ta cần đánh index trên tất cả những tập con đó. Và việc tạo tất cả những index đó có thể giảm performance. Vì thế Attribute Pattern là giải pháp tốt cho những trường hợp này.
+
+- Với Attribute Pattern chúng ta có thể move tập con thông tin này vào một mảng chứa các sub-document dạng key-value và giảm số lượng index cần đánh. 
+- Bằng việc sử dụng Pattern này chúng ta có thể tổ chức những documents với những đặc tính chung và tính trước được những trường hợp đặc biệt. 
+
+- Reference: https://www.mongodb.com/developer/how-to/attribute-pattern/
