@@ -14,6 +14,28 @@ Let's go.
 - Việc này giúp chúng ta:
 	- Truy vấn dữ liệu chỉ từ 1 collection
 	- Gom dữ liệu dựa trên truy vấn mà chúng ta muốn sử dụng giúp tăng performace. (thay vì phải truy vấn trên nhiều collections)
+	
+- Ví dụ: data cho một kì Olympic, thay vì lưu thành tích các vận động viên theo bộ môn, chúng ta có thể lưu chung tất cả trong 1 collectio. Vì các vận động viên căn bản sẽ có những thuộc tính khá giống nhau, sẽ khác nhau ở phần bộ môn và thành tích bộ môn đấy thôi.
+```
+{
+	"name": "Duy Nguyen",
+	"nation": "Vietnam",
+	...
+	"sport": "football",
+	"goal": 10,
+	"medal": "gold",
+},
+{
+	"name": "Duy Dep trai",
+	"nation": "Vietnam",
+	...
+	"sport": "tennis",
+	"event": [{
+		"type": "single",
+		"medal": "silver",
+	}],
+}
+```
 
 - Reference: https://www.mongodb.com/developer/how-to/polymorphic-pattern/
 
@@ -28,4 +50,76 @@ Let's go.
 - Với Attribute Pattern chúng ta có thể move tập con thông tin này vào một mảng chứa các sub-document dạng key-value và giảm số lượng index cần đánh. 
 - Bằng việc sử dụng Pattern này chúng ta có thể tổ chức những documents với những đặc tính chung và tính trước được những trường hợp đặc biệt. 
 
+- Ví dụ: data dữ liệu số cuộc gọi thành công thất bại của 1 chiến dịch quảng cáo, thay vì phải lưu 2 field là `success`, `fail`, và có thể là thêm nhiều trạng thái khác nếu business thay đổi thì chúng ta có thể gom chúng thành dạng:
+```
+{
+	...
+	status: [
+		{
+			type: "success",
+			quantity: 10,
+		},
+		{
+			type: "fail",
+			quantity: 2,
+		},
+	],
+}
+```
+
 - Reference: https://www.mongodb.com/developer/how-to/attribute-pattern/
+
+3. Bucket Pattern
+- Pattern này rất phù hợp khi làm việc với IoT, thống kê real-time, hoặc dữ liệu time-series nói chung. Bằng việc gom nhóm (bucketing) dữ liệu lại với nhau, chúng ta sẽ dễ dàng tổ chức các group data cụ thể, tăng khả năng dự đoán tương lai cũng như khám phá các trend quá khứ nhờ dữ liệu, và tối ưu sử dụng bộ nhớ lưu trữ.
+
+- Vì dữ liệu trong những case này sẽ là rất nhiều, và cập nhật liên tục, nếu như chúng ta lưu trữ như đối vs SQL thì lượng document sẽ rất lớn, dẫn đến tốn bộ nhớ lưu trữ cũng như index size. Bằng việc tận dụng document data model, chúng ta có thể "bucket" data lại theo thời gian, 1 document sẽ lưu dữ liệu trong 1 khoảng thời gian cụ thể (ví dụ 1h, 1 ngày).
+
+- Sử dụng Pattern này chúng ta sẽ giảm được index size, đơn giản truy vấn, và có thể dùng dữ liệu tổng hợp trong 1 document.
+
+- Ví dụ: data gửi lên từ 1 sensor sẽ nhất nhiều và nếu phải lưu trữ theo cách thông thường thì mỗi phút sẽ phải lưu 1 record, như vậy lượng data sẽ rất nhiều, thay vào đó chúng ta sẽ gom data trong 1h vào 1 document, vậy là chúng ta đã tiết kiệm bộ nhớ đi rất nhiều.
+```
+// before
+{
+   sensor_id: 12345,
+   timestamp: ISODate("2019-01-31T10:00:00.000Z"),
+   temperature: 40
+}
+{
+   sensor_id: 12345,
+   timestamp: ISODate("2019-01-31T10:01:00.000Z"),
+   temperature: 40
+}
+{
+   sensor_id: 12345,
+   timestamp: ISODate("2019-01-31T10:02:00.000Z"),
+   temperature: 41
+}
+
+// after
+{
+    sensor_id: 12345,
+    start_date: ISODate("2019-01-31T10:00:00.000Z"),
+    end_date: ISODate("2019-01-31T10:59:59.000Z"),
+    measurements: [
+       {
+       timestamp: ISODate("2019-01-31T10:00:00.000Z"),
+       temperature: 40
+       },
+       {
+       timestamp: ISODate("2019-01-31T10:01:00.000Z"),
+       temperature: 40
+       },
+       ...
+       {
+       timestamp: ISODate("2019-01-31T10:42:00.000Z"),
+       temperature: 42
+       }
+    ],
+   transaction_count: 42,
+   sum_temperature: 2413
+}
+```
+
+- Reference: https://www.mongodb.com/developer/how-to/bucket-pattern/
+
+4. Outliner Pattern
