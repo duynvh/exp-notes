@@ -141,4 +141,13 @@ Let's go.
 - Reference: https://www.mongodb.com/developer/how-to/computed-pattern/
 
 6. Subset Pattern
+- Pattern này để giải quyết vấn đề liên quan đến working set vượt quá lượng RAM cung cấp, kết quả là thông tin bị xóa khỏi RAM, dẫn đến performance sẽ bị giảm do việc truy vấn phải lấy dữ liệu từ disk. Nguyên nhân chủ yếu là do những document lớn chứa nhiều data không được sử dụng trong application.
+
+- Ý tưởng của pattern này là thay vì lưu một lượng lớn data trong 1 document, chúng ta sẽ chỉ lưu trữ một vài data thường xuyên được truy cập vào document chính, và dùng 1 collection khác để lưu trữ đầy đủ những data còn lại.
+
+- Ví dụ: đối với một sàn TMDT, mỗi khi truy vấn thông tin sản phẩm chúng ta thường chỉ xem khoảng tầm 10 review. Data review này nếu lưu tất cả vào cùng với document sản phẩm thì khi load lên sẽ phải lấy một lượng lớn dữ liệu và dễ dẫn đến việc working set phình to ra. Thay vào đó chúng ta chỉ cần lưu 10 review gần nhất vào cùng document sản phẩm, và phần còn lại lưu trong collection review rồi mapping với collection product thông qua `product_id`. Như vậy performance của việc load sản phẩm sẽ tốt và working set cũng không bị chiếm dụng.
+
+- Reference: https://www.mongodb.com/developer/how-to/subset-pattern/
+
+7. Extended Reference Pattern
 - 
