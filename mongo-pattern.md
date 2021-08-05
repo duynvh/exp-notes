@@ -172,4 +172,16 @@ Let's go.
 - Áp dụng pattern này giúp chúng ta giảm được lượng write cũng như giảm resources cho những data không cần quá "hoàn hảo", và sẽ cải thiện rất lớn về mặt performance.
 
 9. Tree Pattern
+- Pattern được sử dụng đối với các cấu trúc dữ liệu cấp bậc (cha-con).
+
+- Thông thường để thể hiện nối quan hệ cha con thì chúng ta thường lưu id của parent trong các node con. Trong MongoDB, nếu lưu trữ như thế này thì việc truy vấn từ node cha tìm ra tất cả các node con (đến cấp cuối cùng) sẽ tốn rất nhiều resource. Thay vào đó chúng ta sẽ lưu trữ ở node con tất cả những node cha của nó, và thêm một trường để phân biệt node cha gần nhất. Việc này mang lại 3 lợi ích:
+	- Thứ nhất, là việc từ node cha để tìm ra tất cả node con sẽ rất dễ dàng
+	- Thứ hai, việc tìm kiếm sẽ được tối ưu hơn vì có thể tận dụng toán tử `$graphLookup` trên documents
+	- Cuối cùng, việc lưu trữ danh sách node cha trong một mảng sẽ giúp bạn tận dụng được multi key index, làm cho việc tìm kiếm tất cả con cháu của 1 node cha dễ dàng hơn.
+	
+- Và pattern này sẽ trade off với việc chúng ta phải duplicate dữ liệu về node cha, cũng như phải cập nhật danh sách quan hệ này khi có sự thay đổi.
+
+- Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-tree-pattern
+
+10. Pre-Allocation Pattern
 - 
