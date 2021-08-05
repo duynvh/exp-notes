@@ -150,4 +150,14 @@ Let's go.
 - Reference: https://www.mongodb.com/developer/how-to/subset-pattern/
 
 7. Extended Reference Pattern
-- 
+- Thông thường chúng ta sẽ hay chia dữ liệu ra thành nhiều collections, vì mỗi entity được xem là 1 *"vật"* nên sẽ hợp lí nếu nó được nằm trong 1 collection riêng.
+- Nhưng về mặt performance, nếu như việc truy xuất thông tin có nhiều quan hệ, thì việc phải đi gom tất cả những thông tin ở nhiều bảng khác sẽ gặp nhiều vấn đề, và không phải khi nào cũng cần phải lấy hết tất cả thông tin từ những collection khác cả.
+- Vì vậy pattern này mang ý tưởng sẽ lưu trữ những thông tin cần thiết vào mỗi document thay vì phải đi **JOIN** với những collection khác.
+
+- Pattern này sẽ lưu thêm vào collection cần truy vấn những thông tin từ những collection có quan hệ với nó, nhưng thay vì duplicate tất cả thông tin thì chỉ copy những field mà chúng ta thường xuyên truy cập thôi. Và pattern này sẽ hoạt động tốt nhất khi những data được lưu trong document gốc không thay đổi nhiều. Pattern này sẽ làm duplicate data những việc này hoàn toàn cần thiết để tăng performace, giảm tải cho DB, tránh việc JOIN liên tục, nhưng cũng cần cân nhắc đến việc data duplication.
+
+- Ví dụ: như thông tin hóa đơn, thì khi truy vấn hóa đơn cần có cả thông tin khách hàng mua, thay vì phải đi truy vấn ở collection `users` nữa thì chúng ta sẽ lưu thêm thông tin user cần thiết ở collection `orders` luôn ví dụ như tên và sdt, hoặc địa chỉ giao hàng.
+
+- Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-extended-reference-pattern
+
+8. 
