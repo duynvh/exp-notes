@@ -184,4 +184,20 @@ Let's go.
 - Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-tree-pattern
 
 10. Pre-Allocation Pattern
-- 
+- Ý tưởng của pattern này là tạo ra một cấu trúc với giá trị khởi tạo rỗng và có thể được fill vào sau.
+- Reference: mongodb.com/blog/post/building-with-patterns-the-preallocation-pattern
+
+11. Document Versioning Pattern
+- Pattern dùng để duy trì lịch sử phiên bản của document sẵn sàng và có thể tái sử dụng. Thay vì phải sử dụng 1 hệ thống chuyên dụng cho việc quản lí version liên kết với MongoDB. Việc này sẽ rất cồng kềnh. Với Pattern này chúng ta có thể tránh việc đó và chỉ dùng một DB để quản lí những document hiện tại và lịch sử của chúng.
+
+- Ý tưởng là chúng ta sẽ thêm một field vào mỗi document để cho phép việc theo dõi document version. DB sẽ có 2 collection: một cho phiên bản mới nhất (những dữ liệu được query nhiều nhất) và một collection khác có tất cả các phiên bản của dữ liệu.
+
+- Pattern này chỉ nên cân nhắc áp dụng nếu:
+	- Mỗi document không có quá nhiều phiên bản
+	- Không có quá nhiều document cần đánh version
+	- Hầu hết các query đều thực hiện trên version hiện tại mới nhất.
+
+- Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-document-versioning-pattern
+
+12. Schema Versioning Pattern
+-
