@@ -200,4 +200,10 @@ Let's go.
 - Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-document-versioning-pattern
 
 12. Schema Versioning Pattern
--
+- Pattern này sử dụng 1 field `schema_version` để đánh dấu sự thay đổi của schema.
+
+- Khi thông tin mới được lưu, chúng ta sẽ dùng schema version mới nhất. Chúng ta có thể quyết định dựa vào tính chất của app hoặc use case, có cần thiết phải update tất cả documents với design mới hay chỉ update khi record được truy cập.
+
+- Việc sử dụng shema version sẽ giúp tránh downtime khi có thay đổi về schema.
+
+- Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-schema-versioning-pattern
