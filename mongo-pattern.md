@@ -207,3 +207,9 @@ Let's go.
 - Việc sử dụng shema version sẽ giúp tránh downtime khi có thay đổi về schema.
 
 - Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-schema-versioning-pattern
+
+
+### Summary
+- Reference: https://www.mongodb.com/blog/post/building-with-patterns-a-summary
+
+
