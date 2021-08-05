@@ -160,4 +160,16 @@ Let's go.
 
 - Reference: https://www.mongodb.com/blog/post/building-with-patterns-the-extended-reference-pattern
 
-8. 
+8. Approximation Pattern
+- Pattern được sử dụng khi chúng ta chỉ cần tính toán một con số *"đủ tốt"* thay vì một con số chính xác tuyệt đối.
+
+- Khi chúng ta cần phải hiển thị những tính toán thì việc này rất thách thức hoặc tốn nhiều resource để đạt được độ chính xác, trong khi nó không phải là ưu tiên cao nhất. Ví dụ như cái bài toán về dân số hoặc số lượng view web chẳng hạn, 3 triệu dân với 2 triệu 990 dân sẽ không quá khác biệt trong một báo cáo về dân số.
+
+- Về mặt ứng dụng, thì chúng ta có thể xây dựng một hệ số xấp xỉ, cho phép giảm bớt lượng write vào DB và vẫn giữ cho các con số thông kê hợp lí.
+
+- Ví dụ: Thành phố của chúng ta cần xây dựng một chiến lược cung cấp xe chữa cháy trên mỗi 10.000 dân. Thì chúng ta có thể lấy mốc 100 người là một tấn số update đủ tốt. Thay vì update mỗi khi dân số thay đổi thì chúng ta có thể xây dựng một biến đếm và chỉ update khi đạt 100, chiếm 1% thời gian so với cách thông thường.
+
+- Áp dụng pattern này giúp chúng ta giảm được lượng write cũng như giảm resources cho những data không cần quá "hoàn hảo", và sẽ cải thiện rất lớn về mặt performance.
+
+9. Tree Pattern
+- 
