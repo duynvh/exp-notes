@@ -212,4 +212,6 @@ Let's go.
 ### Summary
 - Reference: https://www.mongodb.com/blog/post/building-with-patterns-a-summary
 
+- ![Summary](https://webassets.mongodb.com/_com_assets/cms/patternsmatrix-xv1kqjlrpb.png)
+
 
