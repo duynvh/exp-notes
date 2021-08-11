@@ -35,6 +35,33 @@
 - Chạy trên mỗi Node
 - Allow network communication cho Pods
 
+---
 
+### Kubeconfig
+- Có thể load file config từ:
+	- chỉ định `--kubeconfig` flag
+	- set biến môi trường `KUBECONFIG`
+	- hoặc mặc định ở `$HOME/.kube/config
+	
+---
+
+### Namespaces
+- Dùng để isolate cho mỗi project, mỗi team, mỗi tập các component.
+- Resource name phải unique trong 1 namespace
+- Không phải tất cả resource đều nằm trong namespace, vd: Node, PV, ...
+- Secret chỉ thuộc về 1 namespace, pod ở ns khác không thể truy cập
+- Một vài ns đặc biệt:
+	- default: mặc định
+	- kube-system: cho những object được tạo bởi k8s
+	- kube-public: dùng chủ yếu cho cluster, và trường hợp một resource nào đó cần public
+	- kube-node-lease: Dùng cho heartbeat Node's lease object
+	
+---
+
+### Liveness and Readiness Probe
+
+- Liveness dùng để check xem pod đó còn sống ko, nếu ko thì sẽ restart pod.
+
+-Readiness dùng để kiểm tra khi nào pod sẵn sàng để nhận traffic, nếu chưa thì sẽ ko link service tới pod.
 
 
