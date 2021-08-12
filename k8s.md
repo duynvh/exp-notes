@@ -64,4 +64,30 @@
 
 -Readiness dùng để kiểm tra khi nào pod sẵn sàng để nhận traffic, nếu chưa thì sẽ ko link service tới pod.
 
+---
+
+### Docker registry
+```
+$ kubectl create secret docker-registry registry-secret
+--docker-server=<host>:8500
+--docker-username=<user_name>
+--docker-password=<user_password>
+--docker-email=<user_email>
+
+// usage
+....
+spec:
+	containers:
+	- name: my-container
+	  image: my-image
+	  imagePullPolicy: Always
+	imagePullSecrets:
+	- name: registry-secret
+```
+
+- k8s sẽ dùng config này để biết nên dùng secret nào để access vào image registry (pull những image private)
+
+
+---
+
 
