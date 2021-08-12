@@ -108,3 +108,20 @@ spec:
 	- Tìm những Nodes có Pods của bạn: `kubectl get pods -l name=my-app -o wide -n my-ns`
 	- So sánh danh sách trên để tìm ra Node gặp vấn đề
 	- Xóa thủ công Pods ko được kiểm soát bởi DaemonSet
+	
+---
+
+### Service
+- Dùng để nối IP và 1 unique DNS name cho một group các pods 
+- Cho phép truy cập 1 ứng dụng (trên nhiều pods) với 1 IP duy nhất.
+
+- Các loại services:
+	- *ClusterIP*: expose service trong nội bộ cluster, chỉ truy cập được bên trong cluster.
+	- *NodePort*: exposes trên mỗi IP của Node, có thể truy cập từ bên ngoài của cluster
+	- *Load Balancer*: Tạo ra 1 external Load balancer, cho phép truy cập từ bên ngoài, gán một external IP cố định (chỉ để quản lí cluster và nếu cloud support).
+	- *Headless*: không thực sự là một service type, nhưng hữu ích để làm 1 interface cho những cơ chế service discovery khác, expose tất cả replicas như là 1 DNS entry.
+	
+---
+
+
+	
