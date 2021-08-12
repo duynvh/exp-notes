@@ -35,13 +35,6 @@
 - Chạy trên mỗi Node
 - Allow network communication cho Pods
 
-7. Daemon Set
-- Đảm bảo những Nodes chạy 1 bản copy của Pod bởi Daemon Set
-- Scheduler ko quản lí những Pods này mà để việc này cho Daemon Set
-
-- Nếu 1 Node được thêm vào cluster thì DaemonSet Controller sẽ tạo 1 Pod trên nó.
-
-
 ---
 
 ### Kubeconfig
@@ -97,4 +90,21 @@ spec:
 
 ---
 
+### Daemon Set
+- Đảm bảo những Nodes chạy 1 bản copy của Pod bởi Daemon Set
+- Scheduler ko quản lí những Pods này mà để việc này cho Daemon Set
 
+- Nếu 1 Node được thêm vào cluster thì DaemonSet Controller sẽ tạo 1 Pod trên nó.
+
+- Những chiến lược (strategies) cập nhật:
+	- *Rolling Update*: đây là strategy mặc định, những Pods cũ sẽ được tự động kill và Pods mới sẽ được tạo, 1 Pod mỗi Node.
+	- *on Delete*: những Pods cũ phải được xóa thủ công để cho Pods mới được tạo
+
+- Problem có thể xảy ra: *DaemonSet muốn tạo Pods trên Node nhưng Node này ko có đủ resource nữa*
+-> Khi đó thì Pod sẽ bị stuck ở `Pending` state.
+
+- Solution:
+	- List tất cả Nodes trong cluster: `kubectl get nodes`
+	- Tìm những Nodes có Pods của bạn: `kubectl get pods -l name=my-app -o wide -n my-ns`
+	- So sánh danh sách trên để tìm ra Node gặp vấn đề
+	- Xóa thủ công Pods ko được kiểm soát bởi DaemonSet
