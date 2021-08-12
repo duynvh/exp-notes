@@ -35,6 +35,13 @@
 - Chạy trên mỗi Node
 - Allow network communication cho Pods
 
+7. Daemon Set
+- Đảm bảo những Nodes chạy 1 bản copy của Pod bởi Daemon Set
+- Scheduler ko quản lí những Pods này mà để việc này cho Daemon Set
+
+- Nếu 1 Node được thêm vào cluster thì DaemonSet Controller sẽ tạo 1 Pod trên nó.
+
+
 ---
 
 ### Kubeconfig
