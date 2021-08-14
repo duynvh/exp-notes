@@ -144,4 +144,91 @@ spec:
 
 ---
 
+### Node and Pod Affinity
+- Có thể chỉ định việc Pod chỉ chạy trên những Node có label A, B.
+- Có thể chỉ định rule để 2 Pod phải chạy cùng 1 Node.
+- Có thể chỉ định rule để các Pod ko đc run trên cùng Node.
 
+---
+
+### Node
+- Có thể pause Node để k nhận workload nữa, ko schedule Pod vào Node nữa ...
+
+---
+
+### Debugging/Troubleshooting
+
+1. Show thêm thông tin về pod
+```
+kubectl get pods
+kubectl describe pods my-pod
+```
+
+2. Khi Pod bị stuck ở Pending status
+- Solution:
+	- Có thể resource limit > cluster capacities
+	- Xóa Pods và dọn dẹp những tài nguyên ko sử dụng
+	- Thêm Node capacities
+	- Thêm nhiều Node
+	
+3. Xem error message của cluster
+- Hiển thị tất cả event trong namespace
+```
+kubectl get events --sort-by=.metadata.creationTimestamp -n my-ns
+```
+
+- Hiển thị tất cả warning messages
+```
+kubectl get events --field-selector type=Warning
+```
+
+4. Pod stuck ở Waiting/ImagePullBackOff status
+- Cần đặt câu hỏi:
+	- Image name, tag, URL có đúng chưa?
+	- Image có tồn tại trong registry không?
+	- Bạn có thể pull image đó ko?
+	- Kubernetes có quyền pull image ko?
+	- ImagePullSecret có được config cho secured registry chưa?
+
+5. Kubectl Debug
+- Chạy một container nữa bên cạnh Pod cần debug
+- Trong container này có thể chạy `curl`, `wget`, ... bên trong mt k8s
+- Yêu cầu: cần active feature EphemeralContainer=true
+```
+kubectl alpha debug -it my-pod --image=busybox --target=my-pod --container=my-debug-container
+```
+
+6. Pod bị restart quá nhiều lần
+- Nếu Pod dùng quá nhiều Memory thì có thể `OOM Killer` có thể hủy nó.
+- Solution: define request and limit memory
+
+7. Nếu Pod ko thể start
+- Khi mà bạn link Pod vs ConfigMap hoặc Secret thì cần chú ý tạo linked resources trước cái name mà bạn dùng cho linked resources.
+
+8. Pod đang running những ko hiểu sao lại ko hoạt động?
+- Có thể đơn giản là vô xem logs
+```
+kubectl logs my-pod
+```
+
+9. Container cứ restart mãi
+- LivenessProbe dùng để báo rằng container đang healthy, nhưng nếu thiếu config gì ở container sẽ làm nó nhầm là container unhealthy
+- Có thể vấn đề là:
+	- Probe target có truy cập được không?
+	- Application cần quá nhiều thời gian để chạy
+	
+10. Muốn truy cập Pod mà k cần LB
+- Có thể mount 1 tunnel giữa Pod và máy bạn
+```
+kubectl port-forward my-pod 8080
+```
+- Và mount tunnel trực tiếp tới Service
+```
+kubectl port-forward svc/my-svc 5050:5555
+```
+- Có thể thử curl ở local
+```
+curl localhost:8080/my-api
+```
+
+---
