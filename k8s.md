@@ -123,5 +123,25 @@ spec:
 	
 ---
 
+### Ingress
+- Cho phép từ bên ngoài truy cập vào cluster của bạn
+- Tránh tạo Load Balancer cho mỗi service
+- Một external endpoint (bảo mật vs SSL/TLS)
 
-	
+- Một Ingress được implement bởi 1 third party:
+	- một Ingress Controller: có thể extend specs để support thêm nhiều tính năng
+- Hợp nhất nhiều routes trong 1 single resource.
+
+---
+
+### RBAC
+
+- Những phương thức để phân quyền dựa trên resources trong k8s
+- Roles: permissions trong 1 namespace
+- ClusterRole: permissions trong cluster
+- RoleBinding: link một role và 1 subject, dùng để phân quyền trong 1 role nào đó tới một hoặc một tập user trong namespace.
+- ClusterRoleBinding: tương tự ở trên
+
+---
+
+
