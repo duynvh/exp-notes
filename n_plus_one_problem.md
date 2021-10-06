@@ -1,6 +1,8 @@
 ### Select N + 1 Problem
 
-Ref: https://www.appdynamics.com/blog/product/common-application-problems-and-how-to-fix-them-the-select-n-1-problem/
+Ref: 
+- https://www.appdynamics.com/blog/product/common-application-problems-and-how-to-fix-them-the-select-n-1-problem/
+- https://medium.com/doctolib/understanding-and-fixing-n-1-query-30623109fe89
 
 Tham khảo:
 - https://www.appdynamics.com/blog/product/common-application-problems-and-how-to-fix-them-the-select-n-1-problem/
