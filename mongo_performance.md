@@ -13,7 +13,7 @@ Series:
 	- `working set`: là RAM sizing dành cho ứng dụng để chứa những data được truy cập thường xuyên hoặc indexes.
 
 <details>
-	<summary>**1. Data modeling and memory sizing**</summary>
+	<summary>1. Data modeling and memory sizing</summary>
 
 - Nếu biết được những query pattern của ứng dụng để design data mode và lựa chọn `index` tương ứng thì việc query sẽ hiệu quả hơn và tăng throughput khi insert và update, và xa hơn là giúp việc phân bổ workload trong một sharded cluster hiệu quả hơn.
 
