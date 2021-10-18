@@ -30,3 +30,44 @@ References:
 - Chỉ cần `initial` hay `leading` attribute được dùng thì concatenated index đã phát huy tác dụng rồi.
 
 > Leading attributes là những thuộc tính xuất hiện sớm nhất trong định nghĩa index
+
+### Index hay không Index?
+
+- Khi nào thì việc dùng index sẽ hiệu quả hơn là collection scan? Việc này còn phụ thuộc vào nhiều yếu tố:
+	- `Caching effects`: lấy từ index sẽ có hit rates tốt hơn trong Mongo cache so với full collection scan. Nhưng nếu collection được đưa hết vào cache thì collection scan sẽ có tốc độ gần như index.
+	- `Document size`: phần lớn thì 1 document sẽ được lấy chỉ với 1 single IO, nên size của document không ảnh hưởng đến performance. Nhưng document size lớn dẫn đến collection size lớn nên sẽ làm tăng IO cần cho collection scan.
+	- `Data distribution`: nếu document được lưu trữ theo thứ tự của thuộc tính được index thì sẽ có hiệu năng cao hơn, vì khi đó thì index sẽ phải đi qua ít block hơn. Dữ liệu được lưu trữ theo thứ tự thường được gọi là `highly clustered`.
+	
+- Nếu data phân bổ random thì collection scan sẽ nhanh hơn index scan nếu hơn 8% collection được get ra. Tuy nhiên nếu data `highly clustered` index scan sẽ nhanh hơn collection scan tới 95%.
+
+- Một vài lưu ý như sau:
+	- Nếu tất cả document hoặc lượng lớn document cần được truy cập thì full collection scan là cách nhanh nhất.
+	- Nếu cần lấy single document từ một collection lớn thì index trên attribute cần lấy là ngon nhất.
+	- Còn ở giữa thì rất khó để đoán được.
+	
+### Overriding Optimizer:
+
+- Mặc định optimizer của Mongo sẽ ưu tiên chọn sử dụng index scan.
+- Trong trường hợp cần query tất cả trong collection hoặc là query số lượng lớn document thì có thể thêm option sau để sử dụng collection scan.
+```
+db.getSiblingDB("test").getCollection("messages").find(
+   {
+      text: 'xin chào mình là Duy'   
+   }
+).hint({$natural: 1})
+```
+- Tham khảo thêm `hint` ở [đây](https://docs.mongodb.com/manual/reference/method/cursor.hint/)
+
+### Indexes for Sorting:
+- Không phải tất cả trường hợp sort dùng index đều tốt, cũng giống như trường hợp get document thì sẽ có những trường hợp sau:
+	- Nếu chỉ tìm một vài document, thì index sẽ nhanh hơn collection scan
+	- Nhưng nếu sort tất cả document của collection thì sẽ thấy giảm thời gian sort nhưng tăng lượng data phải lấy.
+- Đối với sort thì dùng index sẽ lấy first document nhanh hơn collection scan, nhưng nếu lấy last document thì collection scan nhanh hơn
+- Mặc định memory cho sorting là 128M, nếu muốn tăng thì phải set thêm `internalQueryExecMaxBlockingSortBytes`. Xem thêm ở [đây](https://stackoverflow.com/questions/56157659/how-to-set-internalqueryexecmaxblockingsortbytes-in-mongo-conf)
+
+### Using indexes for Joins
+- Có thể dùng aggregate để join 2 collections.
+- Khi dùng aggregate để join thì nên lưu ý đánh index cho `foreignField` nếu ko thì mỗi lần tìm thì Mongo sẽ phải thực hiện 1 collection scan.
+
+### Effect of Indexes on Insert/Update/Delete
+- Tránh tạo index trên những attributes được thường xuyên update.
