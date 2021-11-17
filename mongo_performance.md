@@ -50,3 +50,19 @@ Series:
 - Nếu working set vượt quá lượng RAM thì nên cân nhắc sử dụng một instance khác lớn hơn.
 </details>
 
+---
+<details>
+	<summary>
+			2. Query pattern and profiling
+	</summary>
+	
+Một số lưu ý trước khi đi vào việc profiling:
+- Dùng driver mới nhất
+- Tránh việc tạo những document lớn,
+- Chỉ update trên những field cụ thể cần update, ko update cả document, như vậy sẽ giảm được db overhead.
+- Update nhiều element của array với 1 operation.
+- Dùng replica set tag để có được read isolation cho các tác vụ Analytic.
+- Profile query với lệnh explain
+	
+</details>
+
