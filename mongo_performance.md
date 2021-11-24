@@ -66,3 +66,26 @@ Một số lưu ý trước khi đi vào việc profiling:
 	
 </details>
 
+---
+<details>
+	<summary>
+		3. Indexing
+	</summary>
+
+Thay vì phải scan qua tất cả documents trong collection để tìm kiếm, thì nếu có index, và index đúng thì việc tìm kiếm sẽ tối ưu hơn rất nhiều.
+	
+- Compound indexes: index được tạo bởi nhiều hơn 1 field
+- Trong compound indexes nên follow theo ESR Rule:
+	- Đầu tiên, thêm những field cần so sánh bằng (Equality) trong query vào trước
+	- Những field tiếp theo phản ánh thứ tự (Sort) search
+	- Cuối cùng là những field thể hiện khoảng (Range) được truy cập.
+- Sử dụng `Covered Queries`: là những câu query trả trực tiếp kết quả từ index mà ko cần thông qua source documents.
+- Đối với những field có số lượng unique value nhỏ thì nên dùng compound index để tăng số unique values.
+- Xóa những index không được dùng tới, vì index sẽ tốn tài nguyên RAM và disk, khi document được update thì phải cập nhật index nên sẽ tốn CPU, disk I/O.
+- Wildcard indexes
+- Text index
+- Partial index
+- Multi-key indexes
+- Tránh dùng case insensitive regex mà hãy dùng `Case intensitive index`
+</detail>
+
