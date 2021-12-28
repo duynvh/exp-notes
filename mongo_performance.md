@@ -89,3 +89,10 @@ Thay vì phải scan qua tất cả documents trong collection để tìm kiếm
 - Tránh dùng case insensitive regex mà hãy dùng `Case intensitive index`
 </detail>
 
+---
+<details>
+	<summary>
+		4. Transaction
+	</summary>
+
+</detail>
