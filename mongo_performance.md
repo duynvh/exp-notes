@@ -94,5 +94,10 @@ Thay vì phải scan qua tất cả documents trong collection để tìm kiếm
 	<summary>
 		4. Transaction
 	</summary>
-
+- Đối với single document thì update là một atomic operation, ngay cả khi update nhiều item trong 1 field
+- Từ phiên bản 4.0 thì MongoDB đã hỗ trợ multi-document ACID Transactions. Và một số lưu ý đối với transaction để đạt hiệu năng cũng như hiệu quả cao khi sử dụng:
+	- Runtime limit của transaction mặc định là 60s, có thể điều chỉnh tùy nhu cầu
+	- Số operations trong một transaction, tốt nhất là không quá 1000 operations, nếu nhiều hơn thì nên chia việc xử lí thành nhiều batches
+	- Xử lí exception, nên xử lí ở application logic để catch và retry khi transaction bị abort vì những temporary exceptions.
+	- Giảm write latency trong 1 số trường hợp, ví dụ nếu chạy 10 update độc lập thì mỗi update phải đợi một replication round trip, nhưng nếu gom 10 update vào 1 transaction thì chúng sẽ được replicated cùng nhau tại thời điểm transaction được commit và latency có thể giảm đến 10 lần.
 </detail>
