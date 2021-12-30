@@ -101,3 +101,19 @@ Thay vì phải scan qua tất cả documents trong collection để tìm kiếm
 	- Xử lí exception, nên xử lí ở application logic để catch và retry khi transaction bị abort vì những temporary exceptions.
 	- Giảm write latency trong 1 số trường hợp, ví dụ nếu chạy 10 update độc lập thì mỗi update phải đợi một replication round trip, nhưng nếu gom 10 update vào 1 transaction thì chúng sẽ được replicated cùng nhau tại thời điểm transaction được commit và latency có thể giảm đến 10 lần.
 </detail>
+
+---
+<details>
+	<summary>
+		5. Hardware, OS configuration
+	</summary>
+- Đảm bảo working set phải fit in RAM, nếu được thì nên chọn máy có RAM đủ nhiều -> performance của DB sẽ được cải thiện đáng kể.
+- Dùng multiple CPU cores: nên chọn số CPU cores đủ để đáp ứng số lượng client connection đồng thời.
+- Config wiredTiger Cache: setting ở `storage.wiredTiger.engineConfig.cacheSizeGB`, thông số này nên đủ lớn để chứa được working set, nếu cache không đủ để load thêm data thì WiredTiger sẽ thu hồi page từ cache để giải phóng tài nguyên.
+- Network compression: hiệu năng của DB cũng phụ thuộc vào network transport, dựa trên thuật toán nén snappy thì network traffic của MongoDB cluster có thể được nén đến 80% và sẽ giảm networking cost đi rất nhiều. Có thể thêm `compressors parameter` vào trong connection url như sau:
+	```
+	mongodb://localhost/?compressors=snappy
+	```
+- Khi query một data không có sẵn trong RAM thì Mongo sẽ đọc từ disk. Do đó nên dùng high-performance storage (SSD, ...).
+	- Dùng default compression cho storage của Mongo để lưu data.
+</detail>
