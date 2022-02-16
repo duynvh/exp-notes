@@ -7,3 +7,6 @@
 - Với góc nhìn của DevOps thì họ sẽ quan tâm đến cả ba quá trình **Development**, **Testing**, **Deployment**.
 
 - Và mục đích cuối cùng là làm cho quy trình này hiệu quả nhất có thể và tận dụng **Automation**.
+
+- Resources:
+	- https://blog.kasten.io/devops-learning-curve
