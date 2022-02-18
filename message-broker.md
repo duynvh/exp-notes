@@ -27,3 +27,6 @@
 		
 	- Complex routing: RabbitMQ
 		- RabbitMQ hỗ trợ rất nhiều tính năng và khả năng routing phức tạp. Nhưng bù lại thì message rate không quá lớn khi hỗ trợ việc complex routing communication ( > 10.000 msg/s)
+		
+		
+> Source: https://medium.com/@mertcanarguc/redis-vs-kafka-vs-rabbitmq-e935ebbc7ec
