@@ -94,6 +94,3 @@ type Reader interface {
 }
 ```
 - Vì cách thứ hai sẽ có thể phải lưu rất nhiều garbage trong heap.
-
-### Kết luận
--  
