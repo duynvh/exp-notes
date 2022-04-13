@@ -30,25 +30,48 @@ Thread có 3 trạng thái: `Waiting`, `Runnable` hoặc `Executing`
 **IO-Bound**: là những việc sẽ đưa Thread vào trạng thái `waiting`, bao gồm những việc như là truy cập một resource nào đó thông qua network, hoặc là tạo một system call tới OS. Ví dụ như là khi truy cập Database chính là IO-Bound, trong bài này thì chúng ta gộp luôn những synchronization event như mutexes hay atomic vào loại này luôn vì nó cũng sẽ đưa thread vào trạng thái waiting.
 
 ## Context Switching
+Nếu đang dùng Linux, Mac hay Windows thì bạn đang dùng một hệ điều hành đã có sẵn scheduler.
 
+Và bạn cần lưu ý vài điều:
+- Đầu tiên là không thể đoán trước được scheduler sẽ chọn Thread nào, vì nó sẽ phải dựa vào độ ưu tiên cùng với những event(như nhận data từ network) để quyết định chọn gì và khi nào.
+- Thứ hai là bạn không thể viết code dựa trên những behavior mà bạn may mắn được trải nghiệm nhưng không thể đảm bảo là nó sẽ luôn đúng. Và rất dễ để bạn nghĩ là 1000 lần mà nó chạy thế này thì chắc chắn là thế rồi, điều này hoàn toàn không đúng đâu nhé.
 
+Việc swap Thread trên 1 core được gọi là `context switch`. Context switch xảy ra khi scheduler lấy một `excecuting` thread ra khỏi 1 core và thay thế bằng một `runnable` thread. Và thread được chọn để chạy sẽ đổi sang trạng thái `executing`. Thread được lấy ra thì có thể về trạng thái `runnable`(nếu nó vẫn còn có thể chạy tiếp) hoặc là về trạng thái `waiting`(nếu nó bị thay thế bởi một IO-bound request)
 
+Context switch được xem là tốn nhiều chi phí, vì nó cần thời gian để swap Thread vào và ra khỏi một core. Thường thì độ trễ của context switching phụ thuộc nhiều yếu tố, và tốn khoảng từ `~1000 -> ~1500 nano giây`, thường thì phần cứng có thể xử lí trung bình khoảng 12 câu lệnh mỗi nano giây, thì context switch có thể tốn tới `~12k -> ~18k lệnh`.
 
+Nếu chương trình của bạn tập trung vào IO-Bound thì context switch sẽ rất có lợi vì khi một thread chuyển sang waiting thì thread khác ở trạng thái runnable sẽ thay thế. Điều này đảm bảo core luôn hoạt động. Không để cho core rảnh rỗi nếu có việc cần làm.
 
+Nhưngg nếu chương trình tập trung chủ yếu vào các tác vụ CPU-Bound thì context switch sẽ ảnh hưởng rất nhiều đến performance. Vì Thread luôn có việc phải làm nên context switch sẽ làm cho công việc của thread bị gián đoạn.
 
+## Less is More
+Càng ít thread ở trạng thái runnable nghĩa là sẽ càng ít overhead cho schedule, và nhiều thời dành cho mỗi Thread. Càng nhiều Thread ở trạng thái runnable thì càng ít thời gian cho Thread, và càng ít tác vụ được hoàn thành hơn theo thời gian.
 
+## Find the balance
+Để có được throughput tốt nhất cho ứng dụng thì cần tìm được tỉ lệ phù hợp giữa số core và số Thread bạn cần chạy. Để quản lí việc này thường chúng ta sẽ dùng Thread pools.
 
+Khi viết webservice và cần tương tác với database thì con số magic `3 thread trên mỗi core` thường cho throughput tốt nhất. Con số này giảm thiểu độ trễ của context switch và tận dụng tối đa thời gian xử lí trên các core.
 
+## Cache lines
+Truy cập dữ liệu trên main memory thường cho độ trễ lớn (~100 -> ~300 clock cycles) nên vi xử lí và core có local cache để giữ cho dữ liệu ở gần với hardware thread cần chúng. Truy cập dữ liệu từ cache tốn ít chi phí hơn (~3 -> ~40 clock cycles). Ngày nay thì một cách để tối ưu hiệu năng là đưa dữ liệu vào các vi xử lí để giảm thiệu độ trễ do truy cập dữ liệu. Việc viết các ứng dụng đa luồng có thay đổi các state cần phải xem xét kĩ càng cơ chế của hệ thống caching.
 
+Dữ liệu được trao đổi giữ vi xử lí và main memory thông qua `cache lines`. Cache line là 64-byte chunk memory được dùng để trao đổi dữ liệu giữ main memory và hệ thống caching.
 
+Khi mà nhiều thread chạy song song cùng truy cập tới 1 dữ liệu hoặc là những dữ liệu gần nhau thì có thể chúng sẽ truy cập dữ liệu trên cùng một cache line. Bất cứ thread nào chạy trên core đều có một bản sao của cùng cache line.
 
+Nếu một thread trên 1 core thay đổi bản sao của cache line thì tất cả các bản sao của cùng cache line đó sẽ bị đánh dấu là `dirty`. Và khi thread nào cần đọc hay ghi vào cache line đã đánh dấu `dirty` đó thì đều cần phải truy cập main memory để lấy bản sao mới của cache line.
 
+Đây được gọi là `cache-coherency problem`. Nên khi viết các ứng dụng đa luồng có thay đổi shared state thì cần phải lưu ý đến caching system.
 
+## Scheduling Decision Scenario
+Sau đây là một vài thứ thú vị mà schedule sẽ xem xét khi đưa ra quyết định scheduling.
 
+Context như sau:
 
+"Khi chạy một ứng dụng và main thread được tạo, và xử lí trên core 1. Thread bắt đầu thực thi các câu lệnh, cache line được truy cập vì có dữ liệu được yêu cầu. Thread lúc này quyết định tạo 1 thread mới cho những xử lí đồng thời."
 
-
-
-
-
-
+Khi đó thì scheduler sẽ cần trả lời những câu hỏi sau:
+1. Có nên context-switch main thread ra khỏi core 1? Việc này có thể cải thiện hiệu năng, vì có thể thread mới sẽ cần cùng dữ liệu với main thread đã được cache. Nhưng main thread sẽ không được thực thi full time.
+2. Hay là thread nào đang đợi ở core 1 sẽ phải đợi đến khi main thread thực thi xong? Thread sẽ không được chạy nhưng độ trễ để fetch dữ liệu sẽ không tốn khi nó bắt đầu chạy.
+3. Hay là để thread đợi core nào available? Việc này có nghĩa là cache line ở core đó sẽ phải được flushed, retrieved và duplicated, có thể gây ra độ trễ. Tuy nhiên thread sẽ bắt đầu nhanh hơn và main thread vẫn có thể tiếp tục công việc của nó.
+	
