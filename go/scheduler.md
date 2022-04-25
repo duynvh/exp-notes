@@ -4,6 +4,9 @@ Design và behavior của Go scheduler cho phép những ứng dụng Go chạy 
 Việc này nhờ vào sự tương đồng về cơ chế của Go Scheduler với Scheduler của hệ điều hành (OS Scheduler).
 
 ## OS Scheduler
+
+Source: https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part1.html
+
 Một chương trình mà chúng ta viết ra bản chất là một tập các lệnh (machine instructions) được thực thi tuần tự. Để làm được việc này thì sinh ra một khái niệm gọi là `Thread`.
 
 Thread sẽ được sinh ra và thực thi tập lệnh này tuần tự, và nó sẽ thực hiện việc này đến khi không còn lệnh nào nữa.
@@ -75,3 +78,45 @@ Khi đó thì scheduler sẽ cần trả lời những câu hỏi sau:
 2. Hay là thread nào đang đợi ở core 1 sẽ phải đợi đến khi main thread thực thi xong? Thread sẽ không được chạy nhưng độ trễ để fetch dữ liệu sẽ không tốn khi nó bắt đầu chạy.
 3. Hay là để thread đợi core nào available? Việc này có nghĩa là cache line ở core đó sẽ phải được flushed, retrieved và duplicated, có thể gây ra độ trễ. Tuy nhiên thread sẽ bắt đầu nhanh hơn và main thread vẫn có thể tiếp tục công việc của nó.
 	
+---
+## Go Scheduler
+
+### Startup
+Khi chương trình Go start thì nó được cung cấp một Logical processor (P) với mỗi virtual core.
+
+Nếu bạn có một vi xử lí có nhiều hardware threads trên mỗi physical core (Hyper-threading), thì mỗi hardware thread được thể hiện trong Go như một virtual core.
+
+Ví dụ đối với máy core i7, thì vi xử lí có 4 core vật lí (physical core). Core i7 có cơ chế Hyper threading, nên mỗi core vật lí sẽ có 2 hardware threads trên mỗi core. Do đó ở chương trình Go ta sẽ thấy có 8 virtual core để thực thi OS threads song song.
+
+Một số thuật ngữ:
+- Processor (P): để thể hiện 1 virtual core
+- Machine (M): để thể hiện một OS thread
+- Goroutine (G): để chỉ một goroutine
+
+Mỗi P sẽ đi cùng với 1 M, Thread này được quản lí bởi OS, và OS có trách nhiệm đặt Thread này vào Core để xử lí. Việc này có nghĩa là khi chạy một chương trình Go trong ví dụ này thì ta có 8 thread để thực thi công việc, mỗi thread gắn với một P.
+
+Khi một chương trình Go chạy bản chất vẫn là tạo ra một goroutine. Goroutine có thể được xem là thread ở tầng application, và có nhiều nét giống với OS thread. OS thread thì context-switch trên core còn Goroutine thì context-switch trên M (OS Thread).
+
+Cuối cùng là `run queue`. Có 2 loại run queue trong Go scheduler: Global Run Queue (GRQ) và Local Run Queue (LRQ). Mỗi P sẽ có một LRQ để quản lí các Goroutine được assign để thực thi trong context của P. Những Goroutine này sẽ được context-switch trên M được assign cho P. Còn GRQ sẽ chứa những Goroutine chưa được gán cho bất kì P nào. Sẽ có một process để đưa Goroutine từ GRQ vào LRQ để thực thi.
+
+![GRQ, LRQ](https://www.ardanlabs.com/images/goinggo/94_figure2.png)
+
+
+Source: 
+- https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
+- https://rakyll.org/scheduler/
+- https://granulate.io/deep-dive-into-golang-performance/
+- https://go.dev/src/runtime/proc.go
+- https://docs.google.com/document/d/1TTj4T2JO42uD5ID9e89oa0sLKhJYD0Y_kqxDv3I3XMw/edit
+
+Dàn ý:
+- Introduction
+- Những trạng thái của Goroutine
+- Context switching với Goroutine
+- Xử lí các system calls bất đồng bộ
+- Xử lí các system calls đồng bộ
+- Work stealing
+- Spinning threads
+- Practical example
+
+

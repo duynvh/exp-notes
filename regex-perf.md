@@ -129,7 +129,7 @@ Có thể thấy số bước phải thực hiện tăng theo cấp số nhân, 
 
 Điều này có thể lí giải vì sao khi số kí tự `a` tăng lên thì số lượng bước phải thực hiện để kiểm tra so khớp chuỗi lại tăng đáng sợ như vậy. Chỉ cần tăng từ `aaaaaaaaaaa1b` lên thêm 1 kí tự `a`, tức là tăng 11 kí tự `a` lên 12 kí tự thì số lượng step phải thực hiện là `(12277 - 6) * 2 + 11 + 11 = 24564`, tăng hơn gấp 2 lần.
 
-Vì vậy chỉ cần chuỗi càng dài thì regex pattern này có thể là server của bạn điêu đứng.
+Vì vậy chỉ cần chuỗi càng dài thì regex pattern này có thể làm server của bạn điêu đứng.
 
 Qua đây chúng ta có thể thấy rằng regex cũng không thần thánh như thế, và sử dụng nó không đúng cách cũng rất nguy hiểm, những lỗi này sẽ rất khó để phát hiện nhưng một khi nó xảy ra thì hậu quả sẽ rất nghiêm trọng.
 
