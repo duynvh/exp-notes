@@ -112,6 +112,13 @@ Goroutines có 3 trạng thái:
 - Executing: lúc này routine đã được gắn vào M và đang thực thi.
 
 ### Context switching
+Có 4 kiểu event làm cho scheduler đưa ra quyết định:
+- Dùng keyword *go*: tạo ra 1 goroutine, khi đó scheduler có cơ hội đưa ra quyết định schedule.
+- Garbage collection: khi GC chạy với tập goroutine của nó, thì những routine này cần M để chạy.Việc này làm cho GC schedule loạn xạ. Tuy nhiên thì scheduler biết được routine đang làm gì và tận dụng điều này để đưa ra những quyết định sáng suốt. Một quyết định sáng suốt là việc context-switch một routine muốn xài heap với những routine khác ko cần dùng tới heap trong quá trình GC.
+- System calls: nếu một routine chạy một system call sẽ làm nó block M, đôi khi thì scheduler phải context-switch nó ra khỏi M và context-switch một routine khác vào M đó. Tuy nhiên cũng có trường hợp một M mới được yêu cầu để tiếp tục thực thi những routine đang được xếp hàng đợi trong P.
+- Synchronization và Orchestration: nếu những operation atomic, mutex hoặc channel làm routine bị block, thì scheduler có thể context-switch sang một routine mới để chạy. Khi routine có thể chạy lại thì nó được re-queue và context-switch lại.
+
+### Asynchronouse System Calls
 
 Source: 
 - https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
