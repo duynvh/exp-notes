@@ -101,6 +101,17 @@ Cuối cùng là `run queue`. Có 2 loại run queue trong Go scheduler: Global 
 
 ![GRQ, LRQ](https://www.ardanlabs.com/images/goinggo/94_figure2.png)
 
+OS Scheduler thường có sẵn ở OS, gọi là `preemptive scheduler`, chạy ở kernel nên chúng ta không thể dự đoán được cách nó vận hành. Còn Go Scheduler chạy ở user space, ở trên kernel, gọi là `cooperating scheduler`, nghĩa là scheduler cần những sự kiện ở user space được định nghĩa rõ ràng để đưa ra quyết định scheduling.
+
+Go Scheduler có một cái hay là nó trông giống như `preemptive scheduler` vì bạn không thể đoán trước được nó sẽ làm gì, và việc quyết định scheduling không phụ thuộc vào developer mà nó xảy ra ở Go runtime.
+
+### Goroutine States
+Goroutines có 3 trạng thái:
+- Waiting: lúc này goroutine đã dừng lại và phải đợi một cái gì đó để có thể thực thi tiếp. Có thể là đợi OS (system calls) hoặc là đợi những tác vụ đồng bộ (atomic, mutex)
+- Runnable: ở trạng thái này thì goroutine đang đợi được gắn vào một M để thực thi. Nếu có quá nhiều routine ở trạng thái này thì sẽ càng phải đợi lâu hơn, và thời gian để thực thi của mỗi routine cũng ngắn hơn
+- Executing: lúc này routine đã được gắn vào M và đang thực thi.
+
+### Context switching
 
 Source: 
 - https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
