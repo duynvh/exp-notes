@@ -118,7 +118,15 @@ Có 4 kiểu event làm cho scheduler đưa ra quyết định:
 - System calls: nếu một routine chạy một system call sẽ làm nó block M, đôi khi thì scheduler phải context-switch nó ra khỏi M và context-switch một routine khác vào M đó. Tuy nhiên cũng có trường hợp một M mới được yêu cầu để tiếp tục thực thi những routine đang được xếp hàng đợi trong P.
 - Synchronization và Orchestration: nếu những operation atomic, mutex hoặc channel làm routine bị block, thì scheduler có thể context-switch sang một routine mới để chạy. Khi routine có thể chạy lại thì nó được re-queue và context-switch lại.
 
-### Asynchronouse System Calls
+### Asynchronous System Calls
+Với những network-based system calls thì OS có thể xử lí chúng bất đồng bộ nhờ có 1 thành phần là `network poller`. Ở mỗi OS sẽ dùng mỗi loại khác nhau, ví dụ như MacOS dùng kqueue, Linux dùng epoll còn Windows thì là iocp.
+
+Khi dùng network poller để xử lí các networking system calls thì scheduler có thể tránh được việc goroutine sẽ block M khi có những system calls này. Việc này giúp cho M available để thực thi tiếp những routine trong LRQ của P thay vì phải tạo một M mới, giúp giảm tải scheduling trên OS.
+
+Khi một routine tạo ra một networking call thì nó sẽ được đẩy ra network poller để xử lí, khi đó M có thể lấy routine khác đang có trong LRQ để xử lí. Routine xử lí network ban đầu sau khi được network poller xử lí xong thì được push trở lại vào LRQ.
+
+### Synchronous System Calls
+
 
 Source: 
 - https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
