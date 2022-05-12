@@ -1,12 +1,8 @@
 # Mongo Indexing
 
-References:
-- https://dzone.com/articles/effective-mongodb-indexing-part-1
-- https://dzone.com/articles/effective-mongodb-indexing-part-2
-- https://stackoverflow.com/questions/33921125/when-are-mongodb-indexes-updated
+Bất kì một write operation nào thay đổi những index field đều sẽ update index lại index của document đó.
 
-- Bất kì một write operation nào thay đổi những index field đều sẽ update index lại index của document đó.
-- Nếu update một document làm nó lớn hơn size đã được cấp thì MongoDB sẽ update tất cả những index trong document đó như là một phần của lệnh update.
+Nếu update một document làm nó lớn hơn size đã được cấp thì MongoDB sẽ update tất cả những index trong document đó như là một phần của lệnh update.
 
 -> Do nó nếu như ứng dụng của bạn là write-heavy thì việc tạo quá nhiều index sẽ ảnh hưởng đến performance.
 
@@ -14,41 +10,48 @@ References:
 - B-Tree hỗ trợ tìm kiếm và tìm kiếm theo range.
 - Cost để update lại B-Tree sẽ lớn nếu ko còn free space trong block (phải split index để tạo block mới và move data từ 1 block sang block mới).
 
-1. Index Selectivity
-- Mức độ chọn lọc của một thuộc tính hay một group thuộc tính là một thước đo quen thuộc về độ hữu ích của index trên những thuộc tính đó.
+1. **Index Selectivity**
+Mức độ chọn lọc của một thuộc tính hay một group thuộc tính là một thước đo quen thuộc về độ hữu ích của index trên những thuộc tính đó.
 
-- Document hay index có tính chọn lọc (selective) nếu chúng có số lượng giá trị unique lớn hoặc ít giá trị trùng.
+Document hay index có tính chọn lọc (selective) nếu chúng có số lượng giá trị unique lớn hoặc ít giá trị trùng.
 
-- Ví dụ ngày tháng năm sinh sẽ selective hơn là giới tính.
+Ví dụ ngày tháng năm sinh sẽ selective hơn là giới tính.
 
-- Lí do selective index hiệu quả hơn vì chúng sẽ point trực tiếp tới những giá trị cụ thể thay vì là 1 list giá trị.
+Lí do selective index hiệu quả hơn vì chúng sẽ point trực tiếp tới những giá trị cụ thể thay vì là 1 list giá trị.
 
-2. Concatenated Indexes
-- Đơn giản là index kết hợp nhiều thuộc tính
-- Việc này giúp cho index sẽ selective hơn so với single key index.
-- Concatenated indexes có thể được dùng trong query ngay cả khi không có tất cả key được đánh index xuất hiện trong query đó.
-- Chỉ cần `initial` hay `leading` attribute được dùng thì concatenated index đã phát huy tác dụng rồi.
+2. **Concatenated Indexes**
+Đơn giản là index kết hợp nhiều thuộc tính
+Việc này giúp cho index sẽ selective hơn so với single key index.
+
+Concatenated indexes có thể được dùng trong query ngay cả khi không có tất cả key được đánh index xuất hiện trong query đó.
+Chỉ cần `initial` hay `leading` attribute được dùng thì concatenated index đã phát huy tác dụng rồi.
 
 > Leading attributes là những thuộc tính xuất hiện sớm nhất trong định nghĩa index
 
+### Follow the ESR rule
+Với compound indexes thì nên quyết định thứ tự của các field trong index như sau:
+- Đầu tiên là các field được dùng với so sánh bằng trong query (**Equality**)
+- Tiếp theo là các field dùng để **Sort**
+- Cuối cùng là những field để thể hiện **Range** của data
+
 ### Index hay không Index?
 
-- Khi nào thì việc dùng index sẽ hiệu quả hơn là collection scan? Việc này còn phụ thuộc vào nhiều yếu tố:
-	- `Caching effects`: lấy từ index sẽ có hit rates tốt hơn trong Mongo cache so với full collection scan. Nhưng nếu collection được đưa hết vào cache thì collection scan sẽ có tốc độ gần như index.
-	- `Document size`: phần lớn thì 1 document sẽ được lấy chỉ với 1 single IO, nên size của document không ảnh hưởng đến performance. Nhưng document size lớn dẫn đến collection size lớn nên sẽ làm tăng IO cần cho collection scan.
-	- `Data distribution`: nếu document được lưu trữ theo thứ tự của thuộc tính được index thì sẽ có hiệu năng cao hơn, vì khi đó thì index sẽ phải đi qua ít block hơn. Dữ liệu được lưu trữ theo thứ tự thường được gọi là `highly clustered`.
+Khi nào thì việc dùng index sẽ hiệu quả hơn là collection scan? Việc này còn phụ thuộc vào nhiều yếu tố:
+- `Caching effects`: lấy từ index sẽ có hit rates tốt hơn trong Mongo cache so với full collection scan. Nhưng nếu collection được đưa hết vào cache thì collection scan sẽ có tốc độ gần như index.
+- `Document size`: phần lớn thì 1 document sẽ được lấy chỉ với 1 single IO, nên size của document không ảnh hưởng đến performance. Nhưng document size lớn dẫn đến collection size lớn nên sẽ làm tăng IO cần cho collection scan.
+- `Data distribution`: nếu document được lưu trữ theo thứ tự của thuộc tính được index thì sẽ có hiệu năng cao hơn, vì khi đó thì index sẽ phải đi qua ít block hơn. Dữ liệu được lưu trữ theo thứ tự thường được gọi là `highly clustered`.
 	
-- Nếu data phân bổ random thì collection scan sẽ nhanh hơn index scan nếu hơn 8% collection được get ra. Tuy nhiên nếu data `highly clustered` index scan sẽ nhanh hơn collection scan tới 95%.
+Nếu data phân bổ random thì collection scan sẽ nhanh hơn index scan nếu hơn 8% collection được get ra. Tuy nhiên nếu data `highly clustered` index scan sẽ nhanh hơn collection scan tới 95%.
 
-- Một vài lưu ý như sau:
-	- Nếu tất cả document hoặc lượng lớn document cần được truy cập thì full collection scan là cách nhanh nhất.
-	- Nếu cần lấy single document từ một collection lớn thì index trên attribute cần lấy là ngon nhất.
-	- Còn ở giữa thì rất khó để đoán được.
+Một vài lưu ý như sau:
+- Nếu tất cả document hoặc lượng lớn document cần được truy cập thì full collection scan là cách nhanh nhất.
+- Nếu cần lấy single document từ một collection lớn thì index trên attribute cần lấy là ngon nhất.
+- Còn ở giữa thì rất khó để đoán được.
 	
 ### Overriding Optimizer:
+Mặc định optimizer của Mongo sẽ ưu tiên chọn sử dụng index scan.
 
-- Mặc định optimizer của Mongo sẽ ưu tiên chọn sử dụng index scan.
-- Trong trường hợp cần query tất cả trong collection hoặc là query số lượng lớn document thì có thể thêm option sau để sử dụng collection scan.
+Trong trường hợp cần query tất cả trong collection hoặc là query số lượng lớn document thì có thể thêm option sau để sử dụng collection scan.
 ```
 db.getSiblingDB("test").getCollection("messages").find(
    {
@@ -56,14 +59,16 @@ db.getSiblingDB("test").getCollection("messages").find(
    }
 ).hint({$natural: 1})
 ```
-- Tham khảo thêm `hint` ở [đây](https://docs.mongodb.com/manual/reference/method/cursor.hint/)
+Tham khảo thêm `hint` ở [đây](https://docs.mongodb.com/manual/reference/method/cursor.hint/)
 
 ### Indexes for Sorting:
-- Không phải tất cả trường hợp sort dùng index đều tốt, cũng giống như trường hợp get document thì sẽ có những trường hợp sau:
-	- Nếu chỉ tìm một vài document, thì index sẽ nhanh hơn collection scan
-	- Nhưng nếu sort tất cả document của collection thì sẽ thấy giảm thời gian sort nhưng tăng lượng data phải lấy.
-- Đối với sort thì dùng index sẽ lấy first document nhanh hơn collection scan, nhưng nếu lấy last document thì collection scan nhanh hơn
-- Mặc định memory cho sorting là 128M, nếu muốn tăng thì phải set thêm `internalQueryExecMaxBlockingSortBytes`. Xem thêm ở [đây](https://stackoverflow.com/questions/56157659/how-to-set-internalqueryexecmaxblockingsortbytes-in-mongo-conf)
+Không phải tất cả trường hợp sort dùng index đều tốt, cũng giống như trường hợp get document thì sẽ có những trường hợp sau:
+- Nếu chỉ tìm một vài document, thì index sẽ nhanh hơn collection scan
+- Nhưng nếu sort tất cả document của collection thì sẽ thấy giảm thời gian sort nhưng tăng lượng data phải lấy.
+
+Đối với sort thì dùng index sẽ lấy first document nhanh hơn collection scan, nhưng nếu lấy last document thì collection scan nhanh hơn
+
+Mặc định memory cho sorting là 128M, nếu muốn tăng thì phải set thêm `internalQueryExecMaxBlockingSortBytes`. Xem thêm ở [đây](https://stackoverflow.com/questions/56157659/how-to-set-internalqueryexecmaxblockingsortbytes-in-mongo-conf)
 
 ### Using indexes for Joins
 - Có thể dùng aggregate để join 2 collections.
@@ -71,3 +76,28 @@ db.getSiblingDB("test").getCollection("messages").find(
 
 ### Effect of Indexes on Insert/Update/Delete
 - Tránh tạo index trên những attributes được thường xuyên update.
+
+### Index and Collation
+Collation dùng để chỉ định những rule của ngôn ngữ để dùng so sánh chuỗi, ví dụ như về kí tự, dấu.
+
+Để dùng index cho so sánh chuỗi thì operation phải chỉ định là dùng collation. Vì thế nếu operation có so sánh chuỗi thì phải *cùng collation* với index thì mới sử dụng được index.
+
+Ví dụ:
+```
+# Tạo index với collation
+db.myColl.createIndex( { category: 1 }, { collation: { locale: "vi" } } )
+
+# Query với collation, query này sẽ dùng index được tạo ở trên
+db.myColl.find( { category: "cà phê" } ).collation( { locale: "vi" } )
+
+# Query này không chỉ định collation nên sẽ không dùng được index được tạo ở đây
+db.myColl.find( { category: "cà phê" } )
+
+```
+
+References:
+- https://dzone.com/articles/effective-mongodb-indexing-part-1
+- https://dzone.com/articles/effective-mongodb-indexing-part-2
+- https://www.mongodb.com/blog/post/performance-best-practices-indexing
+- https://stackoverflow.com/questions/33921125/when-are-mongodb-indexes-updated
+- https://www.mongodb.com/docs/manual/indexes/#indexes-and-collation

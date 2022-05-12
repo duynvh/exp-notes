@@ -1,7 +1,7 @@
 # MongoDB commands
 
 Một vài commands mình hay dùng để tracking Mongo
-1. Setting Profiler
+1. **Setting Profiler**
 - Mặc định thì profiler sẽ không được bật, đối với môi trường Production thì cần
     phải setting feature này nhằm theo dõi response time của các operations tới DB.
 ```
@@ -19,7 +19,7 @@ db.setProfilingLevel(1, { sampleRate: 0.1 })
 db.getProfilingStatus()
 ```
 
-2. Query slow operations
+2. **Query slow operations**
 - Một ví dụ để query slow operations sắp xếp theo thời gian (ts).
 ```
 db.system.profile.find().limit(10).sort( { ts : -1 } ).pretty()
