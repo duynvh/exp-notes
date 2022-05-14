@@ -132,23 +132,21 @@ Và Go Scheduler xử lí case này bằng cách:
 - Tách M ra khỏi P cùng với Goroutine đang block, một M mới (có thể được tạo mới hoặc lấy lại trong quá trình transition swap trước đó) được gắn vào P và Goroutine khác trong LRQ được context-switch.
 - Sau khi blocking system call chạy xong thì Goroutine bị blokc trước đó được thêm vào LRQ lại. Còn M ban đầu có thể được dùng trong tương lai.
 
-### Working Steal
+### Working Stealing
+Go scheduler còn là một work-stealing scheduler. Điều này giúp cho việc scheduling được hiệu quả hơn.
 
-Source: 
+Điều sau cùng bạn mong muốn chính là đưa M vào waiting state vì lúc đó OS sẽ context-switch M khỏi core. Đồng nghĩa với việc P không thể hoàn thành công việc được, dù có goroutine đang ở trạng trái runnable đi nữa cho đến khi M được context-switch trở lại core.
+
+Work stealing còn giúp cân bằng số lượng Goroutine giữa các P để có thể phân bố công việc tốt hơn và hoàn thành chúng hiệu quả hơn.
+
+Ví dụ:
+- Một chương trình Go chạy multi-thread với mỗi P có 4 goroutine cần chạy ở LRQ và một routine ở GRQ.
+- Nếu một P chạy nhanh hơn cái còn lại, thực hiện xong hết routine thì nó sẽ xem xem là ở P còn lại có routine nào không, nó sẽ lấy *một nửa* số routine về chạy tiếp.
+- Nếu một P hoàn thành xong công việc, ở P còn lại cũng không còn routine nào trong LRQ thì nó sẽ xem xem GRQ còn routine nào không nó sẽ lấy về chạy nốt.
+
+### Source: 
 - https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
 - https://rakyll.org/scheduler/
 - https://granulate.io/deep-dive-into-golang-performance/
 - https://go.dev/src/runtime/proc.go
 - https://docs.google.com/document/d/1TTj4T2JO42uD5ID9e89oa0sLKhJYD0Y_kqxDv3I3XMw/edit
-
-Dàn ý:
-- Introduction
-- Những trạng thái của Goroutine
-- Context switching với Goroutine
-- Xử lí các system calls bất đồng bộ
-- Xử lí các system calls đồng bộ
-- Work stealing
-- Spinning threads
-- Practical example
-
-
