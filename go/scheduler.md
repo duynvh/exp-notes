@@ -126,7 +126,13 @@ Khi dùng network poller để xử lí các networking system calls thì schedu
 Khi một routine tạo ra một networking call thì nó sẽ được đẩy ra network poller để xử lí, khi đó M có thể lấy routine khác đang có trong LRQ để xử lí. Routine xử lí network ban đầu sau khi được network poller xử lí xong thì được push trở lại vào LRQ.
 
 ### Synchronous System Calls
+Có những system calls không thể chạy bất đồng bộ ví dụ như việc file-based system call, khi đó thì network poller không thể được sử dụng. Lúc này thì goroutine thực hiện system call sẽ block M.
 
+Và Go Scheduler xử lí case này bằng cách:
+- Tách M ra khỏi P cùng với Goroutine đang block, một M mới (có thể được tạo mới hoặc lấy lại trong quá trình transition swap trước đó) được gắn vào P và Goroutine khác trong LRQ được context-switch.
+- Sau khi blocking system call chạy xong thì Goroutine bị blokc trước đó được thêm vào LRQ lại. Còn M ban đầu có thể được dùng trong tương lai.
+
+### Working Steal
 
 Source: 
 - https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
