@@ -37,4 +37,9 @@ echo "Tunnel is running at port $port with host: <your hostname>"
 cloudflared tunnel --url http://localhost:$port run <TUNNEL_NAME>
 ```
 - Add this script to `$PATH`
+- Run tunnel everywhere in cli
+```bash
+# run tunnel in port 8000
+tunnel 8000
+```
 
