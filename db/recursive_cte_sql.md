@@ -24,7 +24,12 @@ WITH average_salary AS (
 SELECT * FROM average_salary
 ```
 
-Nếu không xài CTE thì chúng ta có thể dùng sub-queries để phục vụ mục đích tương tự. Nhưng CTE vẫn được prefer hơn vì giúp cho query dễ đọc và dễ hiểu hơn.
+Nếu không xài CTE thì chúng ta có thể dùng sub-queries để phục vụ mục đích tương tự. Nhưng CTE vẫn được prefer hơn vì:
+- Giúp cho query dễ đọc và dễ hiểu hơn.
+- CTE có thể reuse
+- CTE có hỗ trợ recursive
+
+Có một vài trường hợp phải sử dụng subquery như việc sử dụng ở trong `WHERE`, có thể xem thêm chi tiết ở đây: https://learnsql.com/blog/sql-subquery-cte-difference/
 
 Lợi ích của việc sử dụng CTE:
 - Tránh sử dụng sub-queries
@@ -32,6 +37,8 @@ Lợi ích của việc sử dụng CTE:
 - Làm cho code dễ đọc và dễ maintain hơn
 
 ## Recursive CTE
+Comming soon...
 
 ## References
 - https://learnsql.com/blog/what-is-cte/
+- https://learnsql.com/blog/sql-subquery-cte-difference/
