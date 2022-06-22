@@ -232,3 +232,10 @@ curl localhost:8080/my-api
 ```
 
 ---
+## Termination of Pods and Containers
+- Khi một pod được terminate thì nó sẽ gửi đến container một TERM signal.
+- Và nếu container có xử lí signal này hoặc xử lí hook `PreStop` thì thời gian xử lí tối đa dựa theo setting `terminationGracePeriodSeconds`, nếu quá thời gian setting thì pod cũng sẽ bị terminate chứ không đợi xử lí xong.
+- Trong lúc pod đang ở trạng thái terminating (graceful shutdown) thì control plane sẽ ko trỏ endpoint tới những pod đó nữa.
+- References:
+	- https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+	- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination 
