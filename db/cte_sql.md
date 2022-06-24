@@ -37,8 +37,59 @@ Lợi ích của việc sử dụng CTE:
 - Làm cho code dễ đọc và dễ maintain hơn
 
 ## Recursive CTE
-Comming soon...
+
+Recursive CTE là một dạng đặc biệt của nhiều CTE lồng nhau, nó tự reference đến chính nó trong một expression.
+
+Cú pháp của recursive CTE cũng tương tự nhưng nó sẽ sử dụng những operator đặc biệt để có thể tự reference.
+```sql
+WITH RECURSIVE cte_name AS (
+    cte_query_definition (the anchor member)
+ 
+    UNION ALL
+ 
+    cte_query_definition (the recursive member)
+)
+ 
+SELECT *
+FROM   cte_name;
+```
+
+R-CTE sẽ chạy trên một dữ liệu dạng hierarchy, và nó kết thúc khi duyệt hết trên các levels.
+
+Để sử dụng R-CTE thì chúng ta sẽ cần xác định anchor, parent, child. Một ví dụ về việc dùng R-CTE để lấy danh sách employee kèm level tương ứng, và biết được nhân viên đó thuộc quyền quản lí của ai.
+```sql
+WITH RECURSIVE company_hierarchy AS (
+  SELECT    id,
+            first_name,
+            last_name,
+            boss_id,
+        0 AS hierarchy_level
+  FROM employees
+  WHERE boss_id IS NULL
+ 
+  UNION ALL
+   
+  SELECT    e.id,
+            e.first_name,
+            e.last_name,
+            e.boss_id,
+        hierarchy_level + 1
+  FROM employees e, company_hierarchy ch
+  WHERE e.boss_id = ch.id
+)
+ 
+SELECT   ch.first_name AS employee_first_name,
+       ch.last_name AS employee_last_name,
+       e.first_name AS boss_first_name,
+       e.last_name AS boss_last_name,
+       hierarchy_level
+FROM company_hierarchy ch
+LEFT JOIN employees e
+ON ch.boss_id = e.id
+ORDER BY ch.hierarchy_level, ch.boss_id;
+```
 
 ## References
 - https://learnsql.com/blog/what-is-cte/
+- https://learnsql.com/blog/sql-recursive-cte/
 - https://learnsql.com/blog/sql-subquery-cte-difference/
