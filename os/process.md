@@ -47,3 +47,4 @@ Process switching sẽ gọi một mode switch (user và kernel modes). Context 
 - https://www.guru99.com/difference-between-process-and-thread.html#1
 - https://www.geeksforgeeks.org/introduction-of-process-management
 - https://levelup.gitconnected.com/difference-between-process-and-thread-479986d15bb6
+- https://betterprogramming.pub/pitfalls-of-multithreaded-programs-and-achieving-thread-safety-using-go-1ac80c8d8106
