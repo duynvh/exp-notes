@@ -1,0 +1,144 @@
+{
+  "main": {
+    "id": "e89f0da82b35b3e3",
+    "type": "split",
+    "children": [
+      {
+        "id": "cc669b38c8e01e58",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "coding/design-patterns/resources.md.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "41f7eb6f4b64906a",
+    "type": "split",
+    "children": [
+      {
+        "id": "3802bb305c78c5c0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b7d12434f35a04eb",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "26f04e2a760a5b19",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "bc6d68b5cea29391",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "96f3cf40dabe3477",
+    "type": "split",
+    "children": [
+      {
+        "id": "5ee8de42a5dbce16",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bf70d42d5000241c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "coding/design-patterns/resources.md.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "153d73da349610e6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "coding/design-patterns/resources.md.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "680ca7964ec3224b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2317f05e85f2d16a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "coding/design-patterns/resources.md.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "cc669b38c8e01e58",
+  "lastOpenFiles": [
+    "architecture/resources.md.md",
+    "os/resources.md.md",
+    "os/context-switching.md",
+    "os/process.md",
+    "db/SQL&NoSQL.md",
+    "db/postgres_and_mysql.md",
+    "db/cte_sql.md",
+    "redis_architecture.md",
+    "kafka_101.md",
+    "go/crc32_checksum.md"
+  ]
+}
