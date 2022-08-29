@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "coding/design-patterns/resources.md.md",
+            "file": "go/Go101.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "coding/design-patterns/resources.md.md",
+                "file": "go/Go101.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "coding/design-patterns/resources.md.md",
+                "file": "go/Go101.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "coding/design-patterns/resources.md.md"
+                "file": "go/Go101.md"
               }
             }
           }
@@ -130,15 +130,15 @@
   },
   "active": "cc669b38c8e01e58",
   "lastOpenFiles": [
+    "go/incoming-outgoing-metadata.md",
+    "go/Go101.md",
+    "coding/design-patterns/resources.md.md",
     "architecture/resources.md.md",
     "os/resources.md.md",
     "os/context-switching.md",
     "os/process.md",
     "db/SQL&NoSQL.md",
     "db/postgres_and_mysql.md",
-    "db/cte_sql.md",
-    "redis_architecture.md",
-    "kafka_101.md",
-    "go/crc32_checksum.md"
+    "db/cte_sql.md"
   ]
 }
