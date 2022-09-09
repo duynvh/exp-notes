@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "dfb81994d2291f8d",
+        "id": "175998dbcf9df505",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "javascript/shift_vs_pop.md",
+            "file": "db/cte_sql.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "javascript/shift_vs_pop.md",
+                "file": "db/cte_sql.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "javascript/shift_vs_pop.md",
+                "file": "db/cte_sql.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "javascript/shift_vs_pop.md"
+                "file": "db/cte_sql.md"
               }
             }
           }
@@ -128,8 +128,10 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "dfb81994d2291f8d",
+  "active": "175998dbcf9df505",
   "lastOpenFiles": [
+    "db/window_functions.md",
+    "javascript/shift_vs_pop.md",
     "go/time.After.md",
     "go/Go101.md",
     "go/copylock_analyzer.md",
@@ -137,8 +139,6 @@
     "coding/design-patterns/resources.md.md",
     "architecture/resources.md.md",
     "os/resources.md.md",
-    "os/context-switching.md",
-    "os/process.md",
-    "db/SQL&NoSQL.md"
+    "os/context-switching.md"
   ]
 }
