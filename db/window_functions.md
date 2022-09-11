@@ -3,6 +3,11 @@
 Định nghĩa:
 https://www.sqlite.org/windowfunctions.html
 
+Là những SQL function mà input values là một hoặc nhiều rows trong results set của lệnh SELECT
+Cách để phân biệt `wndow function` với những SQL function khác chính là `OVER` clause, nếu một function có `OVER` clause thì đó là window function, còn không thì là aggregate hoặc là scalar function.
+
+Window function không thể đi với `DISTINCT` và chỉ được dùng trong result set và `ORDER BY` trong lệnh SELECT.
+
 1. **LAG()**
 Cho phép bạn lấy giá trị của một số row trước hoặc sau row hiện tại
 Ví dụ: lấy ra danh sách tiền chi tiêu mỗi tháng, và chênh lệch so với tháng trước
