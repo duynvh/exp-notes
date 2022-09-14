@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "db/window_functions.md",
+            "file": "go/tools.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "db/window_functions.md",
+                "file": "go/tools.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "db/window_functions.md",
+                "file": "go/tools.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "db/window_functions.md"
+                "file": "go/tools.md"
               }
             }
           }
@@ -130,8 +130,8 @@
   },
   "active": "175998dbcf9df505",
   "lastOpenFiles": [
-    "db/cte_sql.md",
     "db/window_functions.md",
+    "db/cte_sql.md",
     "javascript/shift_vs_pop.md",
     "go/time.After.md",
     "go/Go101.md",
