@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "go/tools.md",
+            "file": "db/page_fault.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/tools.md",
+                "file": "db/page_fault.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/tools.md",
+                "file": "db/page_fault.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/tools.md"
+                "file": "db/page_fault.md"
               }
             }
           }
@@ -130,15 +130,15 @@
   },
   "active": "175998dbcf9df505",
   "lastOpenFiles": [
-    "db/window_functions.md",
     "db/cte_sql.md",
+    "os/io.md",
+    "os/random-and-sequential-access.md",
+    "os/dirty.md",
+    "os/stall.md",
+    "db/page_fault.md",
+    "go/tools.md",
+    "db/window_functions.md",
     "javascript/shift_vs_pop.md",
-    "go/time.After.md",
-    "go/Go101.md",
-    "go/copylock_analyzer.md",
-    "go/incoming-outgoing-metadata.md",
-    "coding/design-patterns/resources.md.md",
-    "architecture/resources.md.md",
-    "os/resources.md.md"
+    "go/time.After.md"
   ]
 }
