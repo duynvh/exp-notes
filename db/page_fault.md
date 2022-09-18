@@ -7,16 +7,13 @@ Là một block (segment) lưu trữ dữ liệu
 Là một sự gián đoạn (interruption) xảy ra khi một chương trình truy cập vào một memory block không có trên RAM. Việc này khiến cho OS phải tìm trong virtual memory để nó có thể được lấy từ disk (SSD hoặc HDD) đưa lên RAM.
 
 ![[Pasted image 20220916145822.png]]
-> -   The computer hardware traps to the kernel and program counter (PC) is saved on the stack. Current instruction state information is saved in CPU registers.
-> -  An assembly program is started to save the general registers and other volatile information to keep the OS from destroying it.
-> -  Operating system finds that a page fault has occurred and tries to find out which virtual page is needed. Some times hardware register contains this required information. If not, the operating system must retrieve PC, fetch instruction and find out what it was doing when the fault occurred.
-> - Once virtual address caused page fault is known, system checks to see if address is valid and checks if there is no protection access problem.
-> - If the virtual address is valid, the system checks to see if a page frame is free. If no frames are free, the page replacement algorithm is run to remove a page.
-> -  If frame selected is dirty, page is scheduled for transfer to disk, context switch takes place, fault process is suspended and another process is made to run until disk transfer is completed.
-> - As soon as page frame is clean, operating system looks up disk address where needed page is, schedules disk operation to bring it in.
-> -  When disk interrupt indicates page has arrived, page tables are updated to reflect its position, and frame marked as being in normal state.
-> - Faulting instruction is backed up to state it had when it began and PC is reset. Faulting is scheduled, operating system returns to routine that called it.
-> - Assembly Routine reloads register and other state information, returns to user space to continue execution.
+
+> 1. Đầu tiên thì internal table (thường là process control block) của process xác định reference đó là valid hay invalid memory access
+> 2. Nếu reference invalid thì sẽ terminate process đó. Còn trong trường hợp valid thì nếu không thể truy cập page đó thì sẽ lấy nó từ storage (backing store)
+> 3. Sau đó chúng ta sẽ đến free frame list để tìm free frame
+> 4. Bây giờ thì disk operation sẽ được schedule để đọc page vào allocated frame mới được cấp
+> 5. Khi đọc từ disk xong thì internal table đã được modified và được keep với process, và page table chỉ ra là page bây giờ đã có trên memory.
+> 6. Bây giờ chúng ta sẽ restart instruction mà bị interrupt bởi trap. Giờ process có thể access page đó như bình thường.
 
 Trong khi page fault là những background processes trên Window, MacOS hay Linux thì một vài cái có thể gây ra issues.
 
@@ -29,3 +26,4 @@ Invalid page fault là lỗi được generate bởi OS, xảy ra khi chương t
 - https://www.computerhope.com/jargon/i/ipf.htm
 - https://en.wikipedia.org/wiki/Page_fault
 - https://www.javatpoint.com/page-fault-handling-in-operating-system
+- https://www.studytonight.com/operating-system/page-fault-in-operating-system
