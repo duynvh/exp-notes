@@ -21,9 +21,12 @@ Valid page fault là bình thường và cần thiết để tăng amount của 
 
 Invalid page fault là lỗi được generate bởi OS, xảy ra khi chương trình cố gắng gọi hoặc tạo một segment hay block mà memory access của nó không tồn tại. Nếu chương trình không thể tìm 1 địa chỉ mới thì OS có thể sẽ terminate chương trình đó -> crash.
 
+Page faults là một thứ rất bình thường với virtual memory, mỗi lần page fault thì bắt buộc phải transfer data từ secondary memory sang primary memory. Quá trình này chỉ tốn khoảng vì ms, nhưng vẫn chậm hơn cả nghìn lần so với việc access trực tiếp vào memory. Do đó, việc tăng system memory có thể cải thiện performance vì lúc đó việc truy cập vào virtual memory sẽ giảm đi.
+
 **References**
 - https://www.computerhope.com/jargon/p/pagefaul.htm
 - https://www.computerhope.com/jargon/i/ipf.htm
 - https://en.wikipedia.org/wiki/Page_fault
 - https://www.javatpoint.com/page-fault-handling-in-operating-system
 - https://www.studytonight.com/operating-system/page-fault-in-operating-system
+- https://techterms.com/definition/page_fault
