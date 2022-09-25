@@ -30,3 +30,4 @@ Page faults là một thứ rất bình thường với virtual memory, mỗi l�
 - https://www.javatpoint.com/page-fault-handling-in-operating-system
 - https://www.studytonight.com/operating-system/page-fault-in-operating-system
 - https://techterms.com/definition/page_fault
+- https://stackoverflow.com/questions/5684365/what-causes-page-faults
