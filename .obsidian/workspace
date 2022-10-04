@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "os/socket.md",
+            "file": "go/for_loop_variable_semantics.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "os/socket.md",
+                "file": "go/for_loop_variable_semantics.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "os/socket.md",
+                "file": "go/for_loop_variable_semantics.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "os/socket.md"
+                "file": "go/for_loop_variable_semantics.md"
               }
             }
           }
@@ -130,11 +130,11 @@
   },
   "active": "82a56910afca924c",
   "lastOpenFiles": [
+    "os/socket.md",
     "os/process.md",
     "os/io.md",
     "os/dirty.md",
     "os/context-switching.md",
-    "os/socket.md",
     "db/page_fault.md",
     "db/cte_sql.md",
     "os/random-and-sequential-access.md",
