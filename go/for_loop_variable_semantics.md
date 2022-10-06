@@ -16,8 +16,6 @@ for _, i := range all {
 // 3
 ```
 
-```
-
 Hiện tượng ở trên xảy ra là vì biến item (hay i) là `per-loop` chứ không phải `per-iteration`, do đó `&item` là giống nhau ở mỗi lần lặp, và `item` được ghi đè lại mỗi lần lặp. Có thể fix được lỗi ở trên bằng cách sau:
 
 ```go
