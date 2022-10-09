@@ -1,4 +1,5 @@
 # Skiplist
+simple, dynamic, efficient, randomize search structure
 Problem: Đối với linked list thì có cách nào để tìm kiếm với độ phức tạp nhỏ hơn O(n) không?
 **1. Skiplist là gì?**
 - ý tưởng của skiplist là tạo ra thêm nhiều layer để chúng ta có thể bỏ qua một vài node trong quá trình tìm kiếm.
@@ -36,9 +37,10 @@ Disadvantages of Skip List:
 - Nếu ko dùng offset thì chúng ta phân trang bằng cách nào -> skiplist
 
 **4. Implementation?**
+Coming soon ... 
 
-Resources:
+**Resources**:
 - https://www.geeksforgeeks.org/skip-list/
 - https://ocw.mit.edu/courses/6-046j-introduction-to-algorithms-sma-5503-fall-2005/resources/lecture-12-skip-lists/
-- https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/skiplists.pdf
+- https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/skiplists.pdf -> good slide
 - https://github.com/gansidui/skiplist
