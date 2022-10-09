@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "read/09102022.md",
+            "file": "go/inlining_optimisation.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "read/09102022.md",
+                "file": "go/inlining_optimisation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "read/09102022.md",
+                "file": "go/inlining_optimisation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "read/09102022.md"
+                "file": "go/inlining_optimisation.md"
               }
             }
           }
@@ -130,15 +130,15 @@
   },
   "active": "869863cbbb7b3fe6",
   "lastOpenFiles": [
-    "Untitled.md",
-    "ds/bitmap_index.md",
-    "ds/btree.md",
-    "ds/disjoint_set.md",
-    "ds/skiplist.md",
+    "go/bufio.md",
+    "go/crc32_checksum.md",
+    "go/copylock_analyzer.md",
+    "go/distributed_lock.md",
+    "go/distributed-cache.md",
     "go/for_loop_variable_semantics.md",
-    "back-to-basics/articles.md",
-    "os/stall.md",
-    "os/resources.md",
-    "os/socket.md"
+    "go/incoming-outgoing-metadata.md",
+    "go/json-marshaler-protobuf.md",
+    "go/manage-dependencies.md",
+    "go/tools.md"
   ]
 }
