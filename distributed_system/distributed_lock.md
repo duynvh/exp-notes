@@ -1,4 +1,4 @@
-# Distributed lock with Redis
+# Distributed lock with Redis - Redlock
 
 TL,DR: sẽ dùng một thuật toán gọi là `Redlock` để implement distributed lock
 
@@ -46,3 +46,4 @@ end
 
 Resources:
 - https://redis.io/docs/reference/patterns/distributed-locks/#safety-arguments
+- Issue với Redlock: https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html
