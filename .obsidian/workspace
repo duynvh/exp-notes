@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "read/13102022.md",
+            "file": "read/15102022.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "read/13102022.md",
+                "file": "read/15102022.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "read/13102022.md",
+                "file": "read/15102022.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "read/13102022.md"
+                "file": "read/15102022.md"
               }
             }
           }
@@ -130,6 +130,8 @@
   },
   "active": "869863cbbb7b3fe6",
   "lastOpenFiles": [
+    "os/serial-port.md",
+    "read/13102022.md",
     "read/09102022.md",
     "read/10102022.md",
     "db/learn.md",
@@ -137,8 +139,6 @@
     "go/distributed_lock.md",
     "go/distributed_cache.md",
     "go/redlock.md",
-    "go/inlining_optimisation.md",
-    "go/bufio.md",
-    "go/crc32_checksum.md"
+    "go/inlining_optimisation.md"
   ]
 }
