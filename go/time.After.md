@@ -1,4 +1,4 @@
-# Issue with time.After
+# Issue with time.After and time.Tick
 https://pkg.go.dev/time#After
 >After waits for the duration to elapse and then sends the current time on the returned channel. It is equivalent to NewTimer(d).C. The underlying Timer is not recovered by the garbage collector until the timer fires. If efficiency is a concern, use NewTimer instead and call Timer.Stop if the timer is no longer needed.
 
@@ -33,3 +33,5 @@ case <-ch:
 ```
 
 Với cách này thì khi function kết thúc thì timer cũng sẽ được release vì đã gọi `timer.Stop()`
+
+Tương tự vs `time.Tick` thì nên xài `time.NewTicker` và `ticker.Stop` khi cần release.

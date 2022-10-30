@@ -4,22 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "d940b3b8c7abe8c8",
+        "id": "373b6e6d9e435320",
         "type": "tabs",
         "children": [
           {
-            "id": "9f30520612ba495c",
+            "id": "5de2417478142e1b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/reflection.md",
+                "file": "read/29102022.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "36fbd8024c9a2010",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "read/30102022.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -85,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/reflection.md",
+                "file": "read/30102022.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/reflection.md",
+                "file": "read/30102022.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/reflection.md"
+                "file": "read/30102022.md"
               }
             }
           }
@@ -136,20 +149,17 @@
     "width": 300,
     "collapsed": true
   },
-  "ribbon": {
-    "mostRecentAction": ""
-  },
-  "active": "9f30520612ba495c",
+  "active": "36fbd8024c9a2010",
   "lastOpenFiles": [
-    "go/bufio.md",
+    "read/29102022.md",
+    "read/24102022.md",
+    "read/25102022.md",
+    "read/26102022.md",
+    "read/27102022.md",
+    "read/28102022.md",
+    "go/time.After.md",
     "go/reflection.md",
-    "read/15102022.md",
-    "2022-10-15.md",
-    "os/serial-port.md",
-    "read/13102022.md",
-    "read/09102022.md",
-    "read/10102022.md",
-    "db/learn.md",
-    "distributed_system/distributed_lock.md"
+    "rust/ownership-borrowing.md",
+    "read/20102022.md"
   ]
 }
